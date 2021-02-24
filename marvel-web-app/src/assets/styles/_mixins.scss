@@ -1,0 +1,20 @@
+@use './colors' as c;
+@use './fonts' as f;
+@use './sizes' as s;
+
+@mixin marvel {
+  background-color: c.$marvel-red;
+  padding: 0.35rem 0.1rem 0 0.1rem;
+
+  span {
+    color: c.$marvel-font-white;
+    font-family: f.$marvel-font;
+    font-size: 2.5rem;
+    line-height: 2rem;
+    text-transform: uppercase;
+  }
+
+  width: fit-content;
+  display: flex;
+  align-items: center;
+}

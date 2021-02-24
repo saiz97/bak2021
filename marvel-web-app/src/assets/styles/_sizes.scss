@@ -1,0 +1,12 @@
+$font-size-base : 16px;
+$font-size-upper : 36px;
+$font-size-dec : 4px;
+
+$headings : h1 h2 h3 h4 h5 h6;
+@each $heading in $headings{
+  #{$heading} {
+    font-size : $font-size-upper;
+    font-size : ($font-size-upper / $font-size-base) + rem;
+  }
+  $font-size-upper : $font-size-upper - $font-size-dec;
+}

@@ -1,0 +1,45 @@
+$dir: '../../assets/fonts/';
+$marvel-font: Marvel-Regular;
+$roboto-regular: Roboto-Regular;
+$roboto-bold: Roboto-Bold;
+$roboto-condensed-regular: Roboto-Condensed-Regular;
+$roboto-condensed-bold: Roboto-Condensed-Bold;
+
+@font-face {
+  font-family: $marvel-font;
+  src: url('#{$dir}/MarvelFont/MarvelRegular-Dj83.ttf');
+  font-weight: normal;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: $roboto-regular;
+  src: url('#{$dir}/Roboto/Roboto-Regular.ttf');
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: $roboto-bold;
+  src: url('#{$dir}/Roboto/Roboto-Bold.ttf');
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: $roboto-condensed-regular;
+  src: url('#{$dir}/RobotoCondensed/RobotoCondensed-Regular.ttf');
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: $roboto-condensed-bold;
+  src: url('#{$dir}/RobotoCondensed/RobotoCondensed-Bold.ttf');
+  -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+
