@@ -1,4 +1,6 @@
 export const environment = {
   production: false,
-  MARVEL_API_KEY: ""
+  MARVEL_BASE_URL: "http://gateway.marvel.com",
+  MARVEL_API_PUBLIC_KEY: "YOUR_API_KEY",
+  MARVEL_API_PRIVATE_KEY: "YOUR_API_HASH"
 };
