@@ -8,11 +8,13 @@ import { GlobalConstants } from '../../shared/constants.global';
 })
 export class FooterComponent implements OnInit {
   marvel: string;
+  about: string;
 
   constructor(private globals: GlobalConstants) { }
 
   ngOnInit(): void {
     this.marvel = this.globals.MARVEL_URL;
+    this.about = this.globals.MARVEL_ABOUT_URL;
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalConstants } from '../../shared/constants.global';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  marvel: string;
 
-  constructor() { }
+  constructor(private globals: GlobalConstants) { }
 
   ngOnInit(): void {
+    this.marvel = this.globals.MARVEL_URL;
   }
 
 }
