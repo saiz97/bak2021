@@ -1,9 +1,13 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { CurrentStatusService } from './current-status.service';
+import { StatusService } from './status.service';
 
 import {Md5} from 'ts-md5/dist/md5';
+import { ComicService } from './comic.service';
+import { Comic } from '../model/comic.model';
+import { Creator } from '../model/creator.model';
+import { Character } from '../model/character.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,42 +15,32 @@ import {Md5} from 'ts-md5/dist/md5';
 export class DataStorageService {
   timestamp:string = "0";
 
-  constructor(private http: HttpClient, private statusService: CurrentStatusService) { }
+  constructor(private http: HttpClient, private statusService: StatusService,
+  private comicService: ComicService) { }
 
-  fetchAllCharacters() {
+  getFirst30ComicsByYear(year: number) {
+    const ENDPOINT = "/v1/public/comics";
+    console.log("year: ", year)
 
-    const ENDPOINT = "/v1/public/characters";
-    // const ENDPOINT = "/v1/public/characters?orderBy=name";
-    // const ENDPOINT = `/v1/public/characters?apikey=${environment.MARVEL_API_PUBLIC_KEY}?ts=${this.timestamp}?hash=${this.getMd5Hash()}`;
+    const params = new Map<string, string>();
+      params.set("limit", this.statusService.comicsPageLimit.toString());
+      params.set("format", "comic");
+      params.set("formatType", "comic");
+      params.set("noVariants", "true");
+      params.set("dateRange", `${year}-01-01,${year}-12-31`);
+      params.set("orderBy", "title");
 
-    const promise = this.http.get<any>(`${environment.MARVEL_BASE_URL + ENDPOINT}`, this.setRequestOptions()).toPromise()
+    this.statusService.loadingComics.next(true);
+    this.http.get<any>(`${environment.MARVEL_BASE_URL + ENDPOINT}`, this.setRequestOptions(params)).toPromise()
     .then((response) => {
-      console.log("Success in fetchAllCharacters", response);
+      console.log("Success in getFirst30ComicsByYear", response);
+      this.statusService.totalComics.next(response.data.total);
+      this.turnResultListToComicList(response.data.results);
+      this.statusService.loadingComics.next(false);
     }).catch((error) => {
-      console.error("Error occured in fetchAllCharacters.", error);
+      console.error("Error occured in getFirst30ComicsByYear.", error);
+      this.statusService.loadingComics.next(false);
     });
-  }
-
-  getFirst30ComicsByYear() {
-    const ENDPOINT = "/v1/public/characters";
-
-    this.statusService.yearSelected.subscribe((year) => {
-      const params = new Map<string, string>();
-        params.set("limit", this.statusService.comicsPageLimit.toString());
-        params.set("format", "comic");
-        params.set("formatType", "comic");
-        params.set("noVariants", "true");
-        params.set("dateRange", `${year}-01-01,${year}-12-31`);
-        params.set("orderBy", "onSaleDate");
-
-      this.http.get<any>(`${environment.MARVEL_BASE_URL + ENDPOINT}`, this.setRequestOptions()).toPromise()
-        .then((response) => {
-          console.log("Success in getFirst30ComicsByYear", response);
-          this.statusService.totalComics.next(response.data.total);
-        }).catch((error) => {
-          console.error("Error occured in getFirst30ComicsByYear.", error);
-        });
-    })
   }
 
   getNext30ComicsByOffset(offset: number) {
@@ -73,9 +67,7 @@ export class DataStorageService {
   }
 
   getCharactersByComicId(id: number) {
-    // TODO: Call, when comic detail page
     // /v1/public/comics/{comicId}/characters
-
     const ENDPOINT = `/v1/public/comics/${id}/characters`;
 
     this.statusService.yearSelected.subscribe((year) => {
@@ -84,27 +76,35 @@ export class DataStorageService {
       this.http.get<any>(`${environment.MARVEL_BASE_URL + ENDPOINT}`, this.setRequestOptions()).toPromise()
         .then((response) => {
           console.log("Success in fetchCharactersByComicId", response);
-          this.statusService.totalComics.next(response.data.total);
+          const resCharacters = response.data.results;
+          const characters: Character[] = [];
+
+          for (const character of resCharacters) {
+            let thumbnail = character.thumbnail.path + "/portrait_uncanny." + character.thumbnail.extension;
+            characters.push(new Character(character.id, character.name, character.resourceURI, character.description, thumbnail));
+          }
+
+          this.comicService.addCharactersToComic(id, characters);
         }).catch((error) => {
           console.error("Error occured in fetchCharactersByComicId.", error);
         });
     })
   }
 
-  setRequestOptions(additionalParams: Map<string, string> = null) {
+  setRequestOptions(additionalParams: Map<string, string> = new Map<string, string>()) {
     this.timestamp = Date.now().toString();
 
     const headers = new HttpHeaders({
         "Accept": "application/json",
         });
 
-    const params = new HttpParams()
+    let params = new HttpParams()
         .set("apikey", environment.MARVEL_API_PUBLIC_KEY)
         .set("ts", this.timestamp)
         .set("hash", this.getMd5Hash());
 
     for (const [key, value] of additionalParams) {
-      params.set(key, value);
+      params = params.set(key, value);
     }
 
     return { headers: headers, params: params };
@@ -121,5 +121,53 @@ export class DataStorageService {
 
     console.log("MD5 Hash: ", hash);
     return hash;
+  }
+
+  turnResultListToComicList(responseComics) {
+    const comics: Comic[] = [];
+    for (const comic of responseComics) {
+      let printPrice = 0;
+      let digitialPrice = 0;
+      let saleDate: Date = null;
+      let focDate: Date = null;
+      let issuePreviewText = "";
+      let detailLink = "";
+      let thumbnail = comic.thumbnail.path + "/portrait_uncanny." + comic.thumbnail.extension;
+      let creators: Creator[] = [];
+      let characters: Character[] = [];
+
+      for (const price of comic.prices) {
+        if (price.type === "printPrice") printPrice = price.price;
+        if (price.type === "digitalPurchasePrice") digitialPrice = price.price;
+      }
+
+      for (const date of comic.dates) {
+        if (date.type === "onsaleDate") saleDate = new Date(date.date);
+        if (date.type === "focDate") focDate = new Date(date.date);
+      }
+
+      for (const textObj of comic.textObjects) {
+        if (textObj.type === "issue_preview_text") issuePreviewText = textObj.text;
+      }
+
+      for (const url of comic.urls) {
+        if (url.type === "detail") detailLink = url.url;
+      }
+
+      for (const creator of comic.creators.items) {
+        creators.push(new Creator(creator.name, creator.role));
+      }
+
+      comics.push(
+        new Comic(+comic.id, +comic.digitalId,
+        comic.title, ((comic.description != null) ? comic.description : ""),
+        comic.isbn, comic.issn, comic.upc, comic.diamondCode, +comic.pageCount,
+        printPrice, digitialPrice, saleDate, focDate, issuePreviewText,
+        comic.resourceURI, thumbnail, detailLink, creators, characters)
+      );
+    }
+
+    console.log("New comics: ", typeof comics, comics);
+    this.comicService.addComics(comics);
   }
 }
