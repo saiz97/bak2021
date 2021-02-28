@@ -6,9 +6,12 @@ export class Character {
   resourceURI: string;  // The canonical URL identifier for this resource.
   thumbnail: string;    // The representative image for this character.
 
-  constructor(name: string, resourceURI: string) {
+  constructor(id: number, name: string, resourceURI: string, description: string, thumbnail: string) {
+    this.id = id;
     this.name = name;
     this.resourceURI = resourceURI;
+    this.description = description;
+    this.thumbnail = thumbnail;
   }
 
 }

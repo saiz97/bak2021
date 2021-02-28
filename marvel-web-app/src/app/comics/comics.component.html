@@ -1,0 +1,7 @@
+<div>
+  <select name="year" [(ngModel)]="selectedYear" (change)="changeYear($event.target.value)">
+    <option value="{{year}}" *ngFor="let year of yearOptions">{{year}}</option>
+  </select>
+</div>
+
+<app-comic-list listType="full" [year]="selectedYear"></app-comic-list>

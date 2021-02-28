@@ -2,6 +2,7 @@
 
 html {
   font-size: $font-size-base;
+  background-color: $marvel-white;
 }
 
 * {
@@ -21,6 +22,11 @@ html {
 
 h1, h2, h3 {
   font-family: $roboto-condensed-regular;
+}
+
+a {
+  text-decoration: none;
+  color: $white;
 }
 
 .marvel {

@@ -1,0 +1,72 @@
+@use 'index' as *;
+
+// reference: https://codepen.io/mrReiha/pen/RwPgLeM
+.cards {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 1rem;
+
+  padding: 3rem 1rem;
+
+  .card {
+    position: relative;
+    width: 180px;
+    height: 270px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px rgba($marvel-black, .8);
+    transform-origin: center top;
+    transform-style: preserve-3d;
+    @include transform(translateZ(0));
+    @include transition(.3s);
+
+    img {
+      width: 100%;
+      min-height: 100%;
+    }
+
+    figcaption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.5rem;
+      font-size: 1.2rem;
+      background: rgba($marvel-black, 0.7);
+      color: $white;
+
+      @include transform(translateY(100%));
+      @include transition(.3s);
+    }
+
+    &::after {
+      position: absolute;
+      content: '';
+      z-index: 10;
+      width: 200%;
+      height: 100%;
+      top: -90%;
+      left: -20px;
+      opacity: .5;
+      background: linear-gradient(to top, transparent, $white 15%, rgba($white, .5));
+      @include transform(rotate(45deg));
+      @include transition(.3s);
+    }
+
+    &:hover, &:focus, &:active {
+      box-shadow: 0 8px 16px 3px rgba( $marvel-black, .6 );
+      @include transform(translateY(-3px) scale(1.05) rotateX(15deg));
+
+      figcaption {
+        @include transform(none);
+      }
+
+      &::after {
+        @include transform(rotate(25deg));
+        top: -40%;
+        opacity: .15;
+      }
+    }
+  }
+}
+

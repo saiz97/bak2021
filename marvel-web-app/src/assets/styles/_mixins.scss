@@ -17,4 +17,28 @@
   width: fit-content;
   display: flex;
   align-items: center;
+
+  text-decoration: none;
+}
+
+@mixin flex-center-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin transform($transform) {
+  transform: $transform;
+  -webkit-transform: $transform;
+  -moz-transform: $transform;
+  -ms-transform: $transform;
+  -o-transform: $transform;
+}
+
+@mixin transition($duration) {
+  transition: $duration;
+  -webkit-transition: $duration;
+  -moz-transition: $duration;
+  -ms-transition: $duration;
+  -o-transition: $duration;
 }
