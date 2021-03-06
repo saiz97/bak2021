@@ -72,7 +72,7 @@ export class ComicsComponent implements OnInit, OnDestroy {
     this.selectedPage = page;
 
     if (this.comicPageMap.get(page).length === 0) {
-      this.dataService.getComics(this.selectedYear, page, this.globals.comicsPageLimit * (page - 1));
+      this.dataService.getComics(this.selectedYear, page, this.globals.API_REQUEST_LIMIT * (page - 1));
     } else {
       this.statusService.getDisplayedComicList().next(this.comicPageMap.get(page));
     }

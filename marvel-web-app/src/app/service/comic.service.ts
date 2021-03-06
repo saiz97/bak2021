@@ -26,7 +26,7 @@ export class ComicService {
 
   addToComicPageMap(comics: Comic[], totalComics: number, page: number) {
     if (this.comicPageMap.size === 0) {
-      const pages = Math.floor(totalComics / this.globals.comicsPageLimit);
+      const pages = Math.floor(totalComics / this.globals.API_REQUEST_LIMIT);
       for (let i = 1; i <= pages; i++) {
         (i == page) ? this.comicPageMap.set(i, comics) : this.comicPageMap.set(i, []);
       }

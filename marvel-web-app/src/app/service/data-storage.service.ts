@@ -24,7 +24,7 @@ export class DataStorageService {
     const ENDPOINT = "/v1/public/comics";
 
     const params = new Map<string, string>();
-      params.set("limit", this.globals.comicsPageLimit.toString());
+      params.set("limit", this.globals.API_REQUEST_LIMIT.toString());
       params.set("offset", offset.toString());
       params.set("format", "comic");
       params.set("formatType", "comic");

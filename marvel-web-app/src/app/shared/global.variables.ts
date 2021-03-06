@@ -9,5 +9,5 @@ export class GlobalConstants {
   public readonly BREAKPOINT_TABLET: number = 900;
   public readonly BREAKPOINT_MOBILE: number = 520;
 
-  public comicsPageLimit = 30; // max 100
+  public readonly API_REQUEST_LIMIT = 40; // max 100
 }
