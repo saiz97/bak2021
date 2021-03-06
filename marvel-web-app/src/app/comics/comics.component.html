@@ -1,7 +1,20 @@
 <div>
   <select name="year" [(ngModel)]="selectedYear" (change)="changeYear($event.target.value)">
-    <option value="{{year}}" *ngFor="let year of yearOptions">{{year}}</option>
+    <option value="{{year}}" *ngFor="let year of yearOptions"
+      [attr.selected]="selectedYear == year">{{year}}</option>
   </select>
+
+  <div class="btn-group page-select">
+    <button *ngFor="let page of comicPageMap | keyvalue"
+      [ngClass]="{'selected-page': selectedPage == page.key}"
+      class="page-btn" type="button" [value]="page.key"
+      (click)="changePage(page.key)">{{page.key}}</button>
+  </div>
 </div>
 
-<app-comic-list listType="full" [year]="selectedYear"></app-comic-list>
+<app-comic-list *ngIf="!isLoading;else loading" listType="full"></app-comic-list>
+
+
+<ng-template #loading>
+  <app-loader></app-loader>
+</ng-template>

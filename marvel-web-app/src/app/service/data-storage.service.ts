@@ -8,6 +8,7 @@ import { ComicService } from './comic.service';
 import { Comic } from '../model/comic.model';
 import { Creator } from '../model/creator.model';
 import { Character } from '../model/character.model';
+import { GlobalConstants } from '../shared/global.variables';
 
 @Injectable({
   providedIn: 'root'
@@ -16,79 +17,52 @@ export class DataStorageService {
   timestamp:string = "0";
 
   constructor(private http: HttpClient, private statusService: StatusService,
-  private comicService: ComicService) { }
+  private comicService: ComicService, private globals: GlobalConstants) { }
 
-  getFirst30ComicsByYear(year: number) {
+  getComics(year: number, page: number, offset: number) {
+    console.info(`[INFO] Get comics for year=${year}, page=${page} with offset ${offset}.`)
     const ENDPOINT = "/v1/public/comics";
-    console.log("year: ", year)
 
     const params = new Map<string, string>();
-      params.set("limit", this.statusService.comicsPageLimit.toString());
+      params.set("limit", this.globals.comicsPageLimit.toString());
+      params.set("offset", offset.toString());
       params.set("format", "comic");
       params.set("formatType", "comic");
       params.set("noVariants", "true");
       params.set("dateRange", `${year}-01-01,${year}-12-31`);
       params.set("orderBy", "title");
 
-    this.statusService.loadingComics.next(true);
+    this.statusService.getLoadingStatus().next(true);
     this.http.get<any>(`${environment.MARVEL_BASE_URL + ENDPOINT}`, this.setRequestOptions(params)).toPromise()
     .then((response) => {
-      console.log("Success in getFirst30ComicsByYear", response);
-      this.statusService.totalComics.next(response.data.total);
-      this.turnResultListToComicList(response.data.results);
-      this.statusService.loadingComics.next(false);
+      console.info("[INFO] Success in getComics", response);
+      this.processResponseData(response.data.results, response.data.total, page);
+      this.statusService.getLoadingStatus().next(false);
     }).catch((error) => {
-      console.error("Error occured in getFirst30ComicsByYear.", error);
-      this.statusService.loadingComics.next(false);
+      console.error("Error occured in getComics.", error);
+      this.statusService.getLoadingStatus().next(false);
     });
-  }
-
-  getNext30ComicsByOffset(offset: number) {
-    const ENDPOINT = "/v1/public/comics";
-
-    this.statusService.yearSelected.subscribe((year) => {
-      const params = new Map<string, string>();
-        params.set("limit", this.statusService.comicsPageLimit.toString());
-        params.set("offset", offset.toString());
-        params.set("format", "comic");
-        params.set("formatType", "comic");
-        params.set("noVariants", "true");
-        params.set("dateRange", `${year}-01-01,${year}-12-31`);
-        params.set("orderBy", "onSaleDate");
-
-      this.http.get<any>(`${environment.MARVEL_BASE_URL + ENDPOINT}`, this.setRequestOptions()).toPromise()
-        .then((response) => {
-          console.log("Success in getNext30ComicsByOffset", response);
-          this.statusService.totalComics.next(response.data.total);
-        }).catch((error) => {
-          console.error("Error occured in getNext30ComicsByOffset.", error);
-        });
-    })
   }
 
   getCharactersByComicId(id: number) {
     // /v1/public/comics/{comicId}/characters
     const ENDPOINT = `/v1/public/comics/${id}/characters`;
 
-    this.statusService.yearSelected.subscribe((year) => {
-      const params = new Map<string, string>();
+    this.http.get<any>(`${environment.MARVEL_BASE_URL + ENDPOINT}`, this.setRequestOptions()).toPromise()
+      .then((response) => {
+        console.log("Success in fetchCharactersByComicId", response);
+        const resCharacters = response.data.results;
+        const characters: Character[] = [];
 
-      this.http.get<any>(`${environment.MARVEL_BASE_URL + ENDPOINT}`, this.setRequestOptions()).toPromise()
-        .then((response) => {
-          console.log("Success in fetchCharactersByComicId", response);
-          const resCharacters = response.data.results;
-          const characters: Character[] = [];
+        for (const character of resCharacters) {
+          let thumbnail = character.thumbnail.path + "/portrait_uncanny." + character.thumbnail.extension;
+          characters.push(new Character(character.id, character.name, character.resourceURI, character.description, thumbnail));
+        }
 
-          for (const character of resCharacters) {
-            let thumbnail = character.thumbnail.path + "/portrait_uncanny." + character.thumbnail.extension;
-            characters.push(new Character(character.id, character.name, character.resourceURI, character.description, thumbnail));
-          }
-
-          this.comicService.addCharactersToComic(id, characters);
-        }).catch((error) => {
-          console.error("Error occured in fetchCharactersByComicId.", error);
-        });
-    })
+        this.comicService.addCharactersToComic(id, characters);
+      }).catch((error) => {
+        console.error("Error occured in fetchCharactersByComicId.", error);
+      });
   }
 
   setRequestOptions(additionalParams: Map<string, string> = new Map<string, string>()) {
@@ -119,11 +93,11 @@ export class DataStorageService {
           .appendStr(environment.MARVEL_API_PUBLIC_KEY)
           .end().toString();
 
-    console.log("MD5 Hash: ", hash);
+    // console.log("MD5 Hash: ", hash);
     return hash;
   }
 
-  turnResultListToComicList(responseComics) {
+  processResponseData(responseComics: any, totalComics: number, page: number) {
     const comics: Comic[] = [];
     for (const comic of responseComics) {
       let printPrice = 0;
@@ -167,7 +141,7 @@ export class DataStorageService {
       );
     }
 
-    console.log("New comics: ", typeof comics, comics);
-    this.comicService.addComics(comics);
+    // console.info("[INFO] New comics: ", comics);
+    this.comicService.addComics(comics, totalComics, page);
   }
 }

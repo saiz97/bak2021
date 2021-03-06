@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalConstants } from '../../shared/constants.global';
+import { GlobalConstants } from '../../shared/global.variables';
 
 @Component({
   selector: 'app-header',

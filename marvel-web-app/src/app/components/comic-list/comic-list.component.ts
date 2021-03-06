@@ -13,59 +13,36 @@ import { Router } from '@angular/router';
   styleUrls: ['./comic-list.component.scss']
 })
 export class ComicListComponent implements OnInit, OnDestroy {
-
   @Input() listType: string;
-  @Input() year: number;
-
-  currentPage: number;
-  maxPages: number;
-
-  totalPageSubscription: Subscription;
-  comicSubscription: Subscription;
-
   comicList: Comic[] = [];
-  isLoading: boolean = false;
 
-  constructor(private comicService: ComicService,
-    private dataService: DataStorageService,
-    private statusService: StatusService,
+  displayedComicsSubscription: Subscription;
+
+  constructor(private statusService: StatusService,
     private router: Router) { }
 
   ngOnInit(): void {
-    console.log("YEAR: ", this.year)
-    this.statusService.loadingComics.subscribe((loadingState) => {
-      console.log("loading: ", loadingState)
-      this.isLoading = loadingState;
-    });
 
     switch (this.listType) {
       case "full":
-        this.comicSubscription = this.comicService.getComicsSubject().subscribe((comics) => {
-          console.log("@ComicList Component: ", comics);
+        this.displayedComicsSubscription = this.statusService.getDisplayedComicList().subscribe((comics: Comic[] = []) => {
           this.comicList = comics;
-        });
-
-        this.totalPageSubscription = this.statusService.totalComics.subscribe((totalComics) => {
-          this.maxPages = Math.floor(totalComics / this.statusService.comicsPageLimit);
-          console.log("Total Pages: ", totalComics, " MaxPages: ", this.maxPages);
         });
 
         break;
 
       case "favorites":
-        this.comicList = this.comicService.getFavorites();
         break;
     }
   }
 
-  ngOnDestroy(): void {
-    this.totalPageSubscription.unsubscribe();
-    this.comicSubscription.unsubscribe();
+  selectComic(comic: Comic) {
+    this.statusService.getSelectedComic().next(comic);
+    this.router.navigate(['comics', 'comic', comic.id]);
   }
 
-  selectComic(comic: Comic) {
-    this.statusService.selectedComic.next(comic);
-    this.router.navigate(['comics', 'comic', comic.id]);
+  ngOnDestroy(): void {
+    this.displayedComicsSubscription.unsubscribe();
   }
 
 }

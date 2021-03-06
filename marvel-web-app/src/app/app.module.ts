@@ -13,7 +13,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ComicListComponent } from './components/comic-list/comic-list.component';
 import { ComicDetailComponent } from './components/comic-detail/comic-detail.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
-import { GlobalConstants } from './shared/constants.global';
+import { GlobalConstants } from './shared/global.variables';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { ComicsComponent } from './comics/comics.component';
 

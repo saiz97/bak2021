@@ -1,24 +1,17 @@
 
+<div *ngIf="comicList.length > 0;else noComics" class="comic-list cards">
 
-<div *ngIf="(!isLoading);else loading">
-  <div *ngIf="comicList.length > 0;else noComics" class="comic-list cards">
+  <a class="comic-item" (click)="selectComic(comic)" *ngFor="let comic of comicList">
+    <figure class="card">
+      <img src="{{ comic.thumbnailURI }}" alt="Cover of {{ comic.title }}">
+      <figcaption>{{ comic.title }}</figcaption>
+    </figure>
+  </a>
 
-    <a class="comic-item" (click)="selectComic(comic)" *ngFor="let comic of comicList">
-      <figure class="card">
-        <img src="{{ comic.thumbnailURI }}" alt="Cover of {{ comic.title }}">
-        <figcaption>{{ comic.title }}</figcaption>
-      </figure>
-    </a>
-
-  </div>
 </div>
 
 <ng-template #noComics>
   <div>
     <h1>Sorry, no comics available for </h1>
   </div>
-</ng-template>
-
-<ng-template #loading>
-  <app-loader></app-loader>
 </ng-template>

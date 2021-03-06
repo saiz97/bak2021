@@ -1,2 +1,52 @@
-<p>comic-detail works!</p>
-<h1>{{comic.title}}</h1>
+<div class="comic-detail-container" *ngIf="comic">
+  <div class="bg-image" [style.background-image]="backgroundImage"></div>
+
+  <div class="comic-details">
+    <div class="col-2">
+      <figure class="thumbnail">
+        <img src="{{ comic.thumbnailURI }}" alt="Cover of {{ comic.title }}">
+      </figure>
+      <div class="details">
+        <h1><a [href]="comic.marvelDetailLink" target="_blank">{{comic.title}}</a></h1>
+        <sub><span>{{comic.id}}</span> <span *ngIf="comic.digitalId">| {{comic.digitalId}}</span></sub>
+        <div class="published">
+          <h3>Published: <span>{{comic.saleDate | date:'longDate' }}</span></h3>
+        </div>
+        <div class="creator" *ngFor="let type of creatorsMap | keyvalue">
+          <h3>{{type.key | uppercase}}</h3>
+          <p>{{type.value.join(', ')}}</p>
+        </div>
+        <p *ngIf="(comic.description != '') || (comic.description != null) || (comic.description != undefined)"
+            class="description">
+          {{comic.description}}
+        </p>
+      </div>
+    </div>
+    <div class="more-details">
+      <div class="general-infos">
+        <div class="col">
+          <p *ngIf="comic.focDate">FOC-Date: {{comic.focDate | date:'longDate'}}</p>
+          <p *ngIf="comic.pageCount">Pages: {{comic.pageCount}}</p>
+          <p *ngIf="comic.printPrice">Price (print): {{comic.printPrice | currency}}</p>
+          <p *ngIf="comic.digitalPurchasePrice">Price (digital): {{comic.digitalPurchasePrice}}</p>
+        </div>
+        <div class="col">
+          <p *ngIf="comic.isbn">ISBN: {{comic.isbn}}</p>
+          <p *ngIf="comic.issn">ISSN: {{comic.issn}}</p>
+          <p *ngIf="comic.upc">UPC: {{comic.upc}}</p>
+          <p *ngIf="comic.diamondCode">Diamond Code: {{comic.diamondCode}}</p>
+        </div>
+        <div class="col">
+          <a *ngIf="comic.marvelDetailLink"
+              class="btn btn-classic"
+              [href]="comic.marvelDetailLink" target="_blank">{{ "View on Marvel" | uppercase }}</a>
+        </div>
+      </div>
+      <div class="characters">
+        <figure class="character" *ngFor="let character of comic.characters">
+          <img src="{{ character.thumbnail }}" alt="Image of {{ character.name }}">
+        </figure>
+      </div>
+    </div>
+  </div>
+</div>
