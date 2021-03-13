@@ -3,9 +3,9 @@ import { DataStorageService } from 'src/app/service/data-storage.service';
 import { StatusService } from 'src/app/service/status.service';
 import { Subscription } from 'rxjs';
 import { last } from 'rxjs/operators';
-import { ComicService } from '../service/comic.service';
-import { Comic } from '../model/comic.model';
-import { GlobalConstants } from '../shared/global.variables';
+import { ComicService } from '../../service/comic.service';
+import { Comic } from '../../model/comic.model';
+import { GlobalConstants } from '../../shared/global.variables';
 
 @Component({
   selector: 'app-comics',

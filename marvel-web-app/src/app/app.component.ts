@@ -11,6 +11,6 @@ export class AppComponent {
   title = 'marvel-web-app';
 
   constructor() {
-    
+
   }
 }

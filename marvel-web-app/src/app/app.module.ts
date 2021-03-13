@@ -1,9 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,7 +13,10 @@ import { ComicDetailComponent } from './components/comic-detail/comic-detail.com
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { GlobalConstants } from './shared/global.variables';
 import { LoaderComponent } from './shared/loader/loader.component';
-import { ComicsComponent } from './comics/comics.component';
+import { ComicsComponent } from './components/comics/comics.component';
+import { AuthComponent } from './auth/auth.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -27,12 +28,16 @@ import { ComicsComponent } from './comics/comics.component';
     ComicDetailComponent,
     FavoritesComponent,
     LoaderComponent,
-    ComicsComponent
+    ComicsComponent,
+    AuthComponent,
+    LoginComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule
   ],
   providers: [GlobalConstants],
