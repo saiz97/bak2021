@@ -7,6 +7,8 @@ import { throwError, BehaviorSubject } from 'rxjs';
 import { User } from '../model/user.model';
 import { GlobalConstants } from '../shared/global.variables';
 import { environment } from '../../environments/environment';
+import { ComicService } from '../service/comic.service';
+import { DataStorageService } from '../service/data-storage.service';
 
 export interface AuthResponseData {
   kind: string;
@@ -25,7 +27,7 @@ export class AuthService {
   private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router,
-  private globals: GlobalConstants) {}
+  private globals: GlobalConstants, private comicService: ComicService) {}
 
   signup(email: string, password: string) {
     console.table(this.globals);
@@ -112,6 +114,8 @@ export class AuthService {
       clearTimeout(this.tokenExpirationTimer);
     }
     this.tokenExpirationTimer = null;
+
+    this.comicService.resetFavorites();
   }
 
   autoLogout(expirationDuration: number) {

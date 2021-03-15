@@ -35,7 +35,6 @@ export class ComicService {
     }
 
     this.comicPageMapSubject.next(this.comicPageMap);
-    // console.log(this.comicPageMap, comics, totalComics, page)
   }
 
   addCharactersToComic(id: number, characters: Character[]) {
@@ -61,6 +60,14 @@ export class ComicService {
 
   addFavorite(comic: Comic) {
     this.favorites.push(comic);
+    this.favoritesSubject.next(this.favorites.slice());
+    console.info("Favorite added: ", comic, this.favorites);
+  }
+
+  addFavorites(comics: Comic[]) {
+    this.favorites = comics;
+    this.favoritesSubject.next(this.favorites.slice());
+    console.info("Favorites: ", this.favorites);
   }
 
   getFavorites(): Comic[] {

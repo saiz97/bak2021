@@ -7,7 +7,9 @@ export class GlobalConstants {
   public readonly MARVEL_ABOUT_URL: string = "https://www.marvel.com/corporate/about";
 
   public readonly GOOGLE_SIGNUP_URL: string = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
-  public readonly GOOGLE_VERIFY_URL: string = "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=";
+  public readonly GOOGLE_VERIFY_URL: string = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
+
+  public readonly FIREBASE_DATABASE_URL: string = 'https://bak2021-marvel-comics-default-rtdb.firebaseio.com/';
 
   public readonly BREAKPOINT_TABLET: number = 900;
   public readonly BREAKPOINT_MOBILE: number = 520;

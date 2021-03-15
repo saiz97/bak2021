@@ -7,6 +7,9 @@ import { ComicService } from 'src/app/service/comic.service';
 import { DataStorageService } from 'src/app/service/data-storage.service';
 import { Router } from '@angular/router';
 import { Creator } from 'src/app/model/creator.model';
+import { AuthService } from 'src/app/auth/auth.service';
+import { User } from 'src/app/model/user.model';
+import { ComicsComponent } from '../comics/comics.component';
 
 @Component({
   selector: 'app-comic-detail',
@@ -16,6 +19,8 @@ import { Creator } from 'src/app/model/creator.model';
 export class ComicDetailComponent implements OnInit, OnDestroy {
   comic: Comic;
   comicSubscription: Subscription;
+  userSubscription: Subscription;
+  user: User;
   backgroundImage: string;
 
   writers: string = "";
@@ -25,11 +30,16 @@ export class ComicDetailComponent implements OnInit, OnDestroy {
   creatorsMap: Map<string, string[]> = new Map<string, string[]>();
 
   constructor(private statusService: StatusService, private comicService: ComicService,
-              private dataService: DataStorageService, private router: Router) { }
+              private dataService: DataStorageService, private router: Router,
+              private authSerice: AuthService) { }
 
   ngOnInit(): void {
+    this.userSubscription = this.authSerice.user.subscribe(user => {
+      console.log("USER: ", user)
+      this.user = user
+    });
+
     this.comicSubscription = this.statusService.getSelectedComic().subscribe((comic: Comic) => {
-      console.log("??? ", comic)
       if (comic.characters.length === 0) {
         this.dataService.getCharactersByComicId(comic.id);
       }
@@ -38,7 +48,6 @@ export class ComicDetailComponent implements OnInit, OnDestroy {
       this.backgroundImage = 'url(' + this.comic.thumbnailURI + ')';
 
       this.creatorsToMap(comic.creators);
-
     });
 
     if (this.comic === undefined) {
@@ -58,6 +67,15 @@ export class ComicDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.comicSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
+  }
+
+  favorComic() {
+    this.comicService.addFavorite(this.comic);
+    this.comicService.getFavoritesSubject().subscribe(favorites => {
+      console.log("==", favorites);
+      this.dataService.storeFavoritesOfUser(favorites, this.user);
+    }).unsubscribe();
   }
 
 }

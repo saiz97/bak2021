@@ -9,6 +9,8 @@ import { Comic } from '../model/comic.model';
 import { Creator } from '../model/creator.model';
 import { Character } from '../model/character.model';
 import { GlobalConstants } from '../shared/global.variables';
+import { AuthService } from '../auth/auth.service';
+import { User } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +19,7 @@ export class DataStorageService {
   timestamp:string = "0";
 
   constructor(private http: HttpClient, private statusService: StatusService,
-  private comicService: ComicService, private globals: GlobalConstants) { }
+  private comicService: ComicService, private globals: GlobalConstants, private authService: AuthService) { }
 
   getComics(year: number, page: number, offset: number) {
     console.info(`[INFO] Get comics for year=${year}, page=${page} with offset ${offset}.`)
@@ -143,5 +145,54 @@ export class DataStorageService {
 
     // console.info("[INFO] New comics: ", comics);
     this.comicService.addComics(comics, totalComics, page);
+  }
+
+  getFavoritesOfUser(user: User) {
+    const url = this.globals.FIREBASE_DATABASE_URL + user.id + '.json';
+    console.log("FAVORITES!", url);
+    this.http.get<Comic[]>(url).subscribe(comics => {
+      if (comics != null) {
+        const favs: Comic[] = [];
+
+        for (const comic of comics) {
+          const creators:Creator[] = [];
+          const characters:Character[] = [];
+
+          for (const creator of comic.creators) {
+            creators.push(new Creator(creator.name, creator.type));
+          }
+
+          for (const character of comic.characters) {
+            characters.push(new Character(
+              character.id, character.name,
+              character.resourceURI,
+              character.description, character.thumbnail
+            ));
+          }
+
+          const fav = new Comic(
+            comic.id, comic.digitalId, comic.title, comic.description,
+            comic.isbn, comic.issn, comic.upc, comic.diamondCode,
+            comic.pageCount, comic.printPrice, comic.digitalPurchasePrice,
+            comic.saleDate, comic.focDate, comic.issuePreviewText,
+            comic.resourceURI, comic.thumbnailURI, comic.marvelDetailLink,
+            creators, characters
+          );
+
+          // console.log("Saved Favorite: ", fav);
+          favs.push(fav);
+        }
+      }
+    })
+  }
+
+  storeFavoritesOfUser(comics: Comic[], user: User) {
+    const url = this.globals.FIREBASE_DATABASE_URL + user.id + '.json';
+
+    this.http
+      .put(url, comics)
+      .subscribe(response => {
+        console.log(response);
+      });
   }
 }
