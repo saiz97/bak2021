@@ -27,6 +27,8 @@ export class ComicDetailComponent implements OnInit, OnDestroy {
   pencillers: string = "";
   converArtists: string = "";
 
+  isFavorite: boolean = false;
+
   creatorsMap: Map<string, string[]> = new Map<string, string[]>();
 
   constructor(private statusService: StatusService, private comicService: ComicService,
@@ -35,7 +37,6 @@ export class ComicDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userSubscription = this.authSerice.user.subscribe(user => {
-      console.log("USER: ", user)
       this.user = user
     });
 
@@ -47,6 +48,7 @@ export class ComicDetailComponent implements OnInit, OnDestroy {
       this.comic = comic;
       this.backgroundImage = 'url(' + this.comic.thumbnailURI + ')';
 
+      this.isFavorite = this.comicService.isFavoriteComic(this.comic.id);
       this.creatorsToMap(comic.creators);
     });
 
@@ -71,9 +73,13 @@ export class ComicDetailComponent implements OnInit, OnDestroy {
   }
 
   favorComic() {
-    this.comicService.addFavorite(this.comic);
+    if (!this.isFavorite) {
+      this.comicService.addFavorite(this.comic);
+    } else {
+      this.comicService.removeFavorite(this.comic);
+    }
+
     this.comicService.getFavoritesSubject().subscribe(favorites => {
-      console.log("==", favorites);
       this.dataService.storeFavoritesOfUser(favorites, this.user);
     }).unsubscribe();
   }

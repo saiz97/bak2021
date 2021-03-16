@@ -149,7 +149,7 @@ export class DataStorageService {
 
   getFavoritesOfUser(user: User) {
     const url = this.globals.FIREBASE_DATABASE_URL + user.id + '.json';
-    console.log("FAVORITES!", url);
+
     this.http.get<Comic[]>(url).subscribe(comics => {
       if (comics != null) {
         const favs: Comic[] = [];
@@ -158,16 +158,20 @@ export class DataStorageService {
           const creators:Creator[] = [];
           const characters:Character[] = [];
 
-          for (const creator of comic.creators) {
-            creators.push(new Creator(creator.name, creator.type));
+          if (comic.creators) {
+            for (const creator of comic.creators) {
+              creators.push(new Creator(creator.name, creator.type));
+            }
           }
 
-          for (const character of comic.characters) {
-            characters.push(new Character(
-              character.id, character.name,
-              character.resourceURI,
-              character.description, character.thumbnail
-            ));
+          if (comic.characters) {
+            for (const character of comic.characters) {
+              characters.push(new Character(
+                character.id, character.name,
+                character.resourceURI,
+                character.description, character.thumbnail
+              ));
+            }
           }
 
           const fav = new Comic(
@@ -179,11 +183,11 @@ export class DataStorageService {
             creators, characters
           );
 
-          // console.log("Saved Favorite: ", fav);
           favs.push(fav);
         }
+        this.comicService.addFavorites(favs);
       }
-    })
+    });
   }
 
   storeFavoritesOfUser(comics: Comic[], user: User) {

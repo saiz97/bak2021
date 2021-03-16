@@ -46,6 +46,10 @@ export class ComicService {
     })
   }
 
+  isFavoriteComic(id: number): boolean {
+    return (this.favorites.find(comic => (comic.id === id)) !== undefined);
+  }
+
   getComics(): Comic[] {
     return this.comics.slice();
   }
@@ -62,6 +66,12 @@ export class ComicService {
     this.favorites.push(comic);
     this.favoritesSubject.next(this.favorites.slice());
     console.info("Favorite added: ", comic, this.favorites);
+  }
+
+  removeFavorite(fav: Comic) {
+    this.favorites = this.favorites.filter(comic => comic.id !== fav.id);
+    this.favoritesSubject.next(this.favorites.slice());
+    console.info("Favorite removed: ", this.favorites);
   }
 
   addFavorites(comics: Comic[]) {

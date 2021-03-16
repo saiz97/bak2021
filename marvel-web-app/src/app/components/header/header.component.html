@@ -6,12 +6,12 @@
   <div class="navbar-nav">
     <div></div>
     <div class="nav-links">
-      <a class="nav-item nav-link" routerLink="home">Home</a>
-      <a class="nav-item nav-link" routerLink="comics">Comics</a>
-      <a class="nav-item nav-link" routerLink="favorites">Favorites</a>
+      <a class="nav-item nav-link" routerLink="home" routerLinkActive="active">Home</a>
+      <a class="nav-item nav-link" routerLink="comics" routerLinkActive="active">Comics</a>
+      <a class="nav-item nav-link" routerLink="favorites" routerLinkActive="active">Favorites</a>
     </div>
     <div class="login">
-      <a class="nav-item nav-link" routerLink="auth">{{ isAuthenticated ? 'Logout' : 'Login'}}</a>
+      <a class="nav-item nav-link" (click)="onAuth()">{{ isAuthenticated ? 'Logout' : 'Login'}}</a>
     </div>
   </div>
 </nav>

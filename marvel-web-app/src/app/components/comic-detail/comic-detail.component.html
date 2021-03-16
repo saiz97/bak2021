@@ -8,7 +8,7 @@
       </figure>
       <div class="details">
         <h1><a [href]="comic.marvelDetailLink" target="_blank">{{comic.title}}</a></h1>
-        <button class="btn btn-fav" (click)="favorComic()" [disabled]="!user">❤ Like</button>
+        <button class="btn btn-fav" (click)="favorComic()" [disabled]="!user" [ngClass]="(isFavorite ? 'favored' : '')">❤ Like</button>
         <sub><span>{{comic.id}}</span> <span *ngIf="comic.digitalId">| {{comic.digitalId}}</span></sub>
         <div class="published">
           <h3>Published: <span>{{comic.saleDate | date:'longDate' }}</span></h3>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -8,17 +8,18 @@ import { AuthService } from './auth.service';
   selector: 'app-auth',
   templateUrl: './auth.component.html'
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   isLoginMode = true;
 
   activeFormSubscription: Subscription;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.authService.user.subscribe(user => this.router.navigate(['favorites'])).unsubscribe();
     this.activeFormSubscription = this.authService.form.subscribe(formState => {
-      if (formState === "signup" || formState === "") this.isLoginMode = false;
+      if (formState === "login" || formState === "") this.isLoginMode = true;
       else this.isLoginMode = true;
     });
   }
-
-
 }

@@ -38,9 +38,6 @@ export class ComicsComponent implements OnInit, OnDestroy {
       this.yearOptions.push(i)
     }
 
-    this.selectedYear = this.endYear;
-    this.statusService.getSelectedYear().next(this.selectedYear);
-
     this.comicPageMapSubscription = this.comicService.getComicPageMap().subscribe((comicMap) => {
       console.log("Comic Map: ", comicMap)
       if (comicMap != null) {
@@ -51,6 +48,7 @@ export class ComicsComponent implements OnInit, OnDestroy {
 
     this.yearSubscription = this.statusService.getSelectedYear().subscribe((year) => {
       console.log("HEY", year);
+      this.selectedYear = year;
       if (this.comicPageMap == null || this.comicPageMap.size === 0) {
         this.dataService.getComics(year, 1, 0); // first page, offset 0 -> new year = new comics
       }

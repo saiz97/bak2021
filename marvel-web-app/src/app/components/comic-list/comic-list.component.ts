@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class ComicListComponent implements OnInit, OnDestroy {
   @Input() listType: string;
-  comicList: Comic[] = [];
+  @Input() comicList: Comic[];
 
   displayedComicsSubscription: Subscription;
 
@@ -42,7 +42,9 @@ export class ComicListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.displayedComicsSubscription.unsubscribe();
+    if (this.displayedComicsSubscription) {
+      this.displayedComicsSubscription.unsubscribe();
+    }
   }
 
 }
