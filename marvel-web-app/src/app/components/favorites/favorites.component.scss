@@ -1,0 +1,9 @@
+@use 'index' as *;
+
+.container {
+  padding: 3rem;
+}
+
+.intro {
+  @include card-style;
+}

@@ -29,6 +29,8 @@ nav {
     grid-template-columns: repeat(3, 1fr);
 
     .nav-links {
+      padding: 0;
+      list-style: none;
       @include flex-center-center;
       gap: 1rem;
     }
@@ -38,5 +40,20 @@ nav {
       justify-content: flex-end;
     }
   }
+
+  .nav-item a.active,
+  .nav-item.active {
+    background: $marvel-red;
+    font-family: $marvel-font;
+    text-transform: uppercase;
+    padding: 0.1rem 0.1rem 0 0.1rem;
+    font-size: 1.2rem;
+  }
+
+  .nav-item a:hover:not(.active),
+  .nav-item:hover:not(.active) {
+    color: $marvel-red;
+  }
+
 }
 

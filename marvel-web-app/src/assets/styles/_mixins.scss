@@ -32,6 +32,13 @@
   justify-content: center;
 }
 
+@mixin card-style {
+  padding: 3rem 3rem 3rem 2rem;
+  background: c.$white;
+  box-shadow: 0 0 3rem rgba(c.$marvel-black, 0.45);
+  border-left: 1rem solid c.$marvel-red;
+}
+
 @mixin transform($transform) {
   transform: $transform;
   -webkit-transform: $transform;

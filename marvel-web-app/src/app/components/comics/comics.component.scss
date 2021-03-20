@@ -1,0 +1,66 @@
+@use 'index' as *;
+
+.container {
+  padding: 3rem 3rem 0 3rem;
+}
+
+.intro {
+  @include card-style;
+  p {
+    line-height: 1.5rem;
+    span {
+      font-weight: 800;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.filter-container {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  max-width: 100%;
+
+  &>*:nth-child(1) {
+    flex: 1 1 20%;
+    max-width: 10rem;
+  }
+
+  &>*:nth-child(2) {
+    flex: 1 1 80%;
+  }
+
+  select {
+    border-left: 1rem solid $marvel-red;
+    font-family: $roboto-condensed-regular;
+    font-size: 1rem;
+
+    padding: 0.5rem 1rem;
+  }
+
+  .btn-group {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+
+    button {
+      height: 100%;
+      background: none;
+      border: 0.1rem solid $marvel-grey;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.2rem;
+
+      &.selected-page {
+        background: $marvel-grey;
+        color: $white;
+      }
+    }
+  }
+}

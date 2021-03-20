@@ -2,50 +2,66 @@
   <div class="bg-image" [style.background-image]="backgroundImage"></div>
 
   <div class="comic-details">
-    <div class="col-2">
-      <figure class="thumbnail">
-        <img src="{{ comic.thumbnailURI }}" alt="Cover of {{ comic.title }}">
-      </figure>
-      <div class="details">
-        <h1><a [href]="comic.marvelDetailLink" target="_blank">{{comic.title}}</a></h1>
-        <button class="btn btn-fav" (click)="favorComic()" [disabled]="!user" [ngClass]="(isFavorite ? 'favored' : '')">❤ Like</button>
-        <sub><span>{{comic.id}}</span> <span *ngIf="comic.digitalId">| {{comic.digitalId}}</span></sub>
-        <div class="published">
-          <h3>Published: <span>{{comic.saleDate | date:'longDate' }}</span></h3>
+    <div class="main-content card-style">
+      <button class="btn btn-fav" (click)="favorComic()" [disabled]="!user" [ngClass]="(isFavorite ? 'favored' : '')">❤ {{ (!isFavorite ? 'I LIKE THIS' : 'DISLIKE') }}</button>
+      <div class="inner-container">
+        <figure class="thumbnail">
+          <img src="{{ comic.thumbnailURI }}" alt="Cover of {{ comic.title }}">
+        </figure>
+        <div class="details">
+          <h1><a [href]="comic.marvelDetailLink" target="_blank">{{comic.title}}</a></h1>
+
+          <sub><span>ID {{comic.id}}</span> <span *ngIf="comic.digitalId">| DIGITAL ID {{comic.digitalId}}</span></sub>
+
+          <p *ngIf="(comic.description != '') || (comic.description != null) || (comic.description != undefined)"
+              class="section description">
+            {{comic.description}}
+          </p>
+
+          <div class="section published">
+            <h4>Published:</h4> <p>{{comic.saleDate | date:'longDate' }}</p>
+          </div>
+
+          <div class="section creators" *ngIf="comic.creators">
+            <h4>Praise those incredible creators:</h4>
+            <div class="creators-container">
+              <div class="creator" *ngFor="let type of creatorsMap | keyvalue">
+                <h5>{{type.key | uppercase}}</h5>
+                <p>{{type.value.join(', ')}}</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="creator" *ngFor="let type of creatorsMap | keyvalue">
-          <h3>{{type.key | uppercase}}</h3>
-          <p>{{type.value.join(', ')}}</p>
-        </div>
-        <p *ngIf="(comic.description != '') || (comic.description != null) || (comic.description != undefined)"
-            class="description">
-          {{comic.description}}
-        </p>
       </div>
     </div>
-    <div class="more-details">
+    <div class="more-details card-style">
+      <h4>Further information</h4>
       <div class="general-infos">
         <div class="col">
-          <p *ngIf="comic.focDate">FOC-Date: {{comic.focDate | date:'longDate'}}</p>
-          <p *ngIf="comic.pageCount">Pages: {{comic.pageCount}}</p>
-          <p *ngIf="comic.printPrice">Price (print): {{comic.printPrice | currency}}</p>
-          <p *ngIf="comic.digitalPurchasePrice">Price (digital): {{comic.digitalPurchasePrice}}</p>
+          <p *ngIf="comic.focDate"><span>FOC-Date:</span>{{comic.focDate | date:'longDate'}}</p>
+          <p *ngIf="comic.pageCount"><span>Pages:</span>{{comic.pageCount}}</p>
+          <p *ngIf="comic.printPrice"><span>Price (print):</span>{{comic.printPrice | currency}}</p>
+          <p *ngIf="comic.digitalPurchasePrice"><span>Price (digital):</span>{{comic.digitalPurchasePrice}}</p>
         </div>
         <div class="col">
-          <p *ngIf="comic.isbn">ISBN: {{comic.isbn}}</p>
-          <p *ngIf="comic.issn">ISSN: {{comic.issn}}</p>
-          <p *ngIf="comic.upc">UPC: {{comic.upc}}</p>
-          <p *ngIf="comic.diamondCode">Diamond Code: {{comic.diamondCode}}</p>
-        </div>
-        <div class="col">
-          <a *ngIf="comic.marvelDetailLink"
-              class="btn btn-classic"
-              [href]="comic.marvelDetailLink" target="_blank">{{ "View on Marvel" | uppercase }}</a>
+          <p *ngIf="comic.isbn"><span>ISBN:</span>{{comic.isbn}}</p>
+          <p *ngIf="comic.issn"><span>ISSN:</span>{{comic.issn}}</p>
+          <p *ngIf="comic.upc"><span>UPC:</span>{{comic.upc}}</p>
+          <p *ngIf="comic.diamondCode"><span>Diamond Code:</span>{{comic.diamondCode}}</p>
         </div>
       </div>
-      <div class="characters">
+
+      <a *ngIf="comic.marvelDetailLink"
+          class="btn btn-classic"
+          type="button"
+          [href]="comic.marvelDetailLink" target="_blank">{{ "View on Marvel.com" | uppercase }}</a>
+    </div>
+    <div class="characters card-style" *ngIf="comic.characters">
+      <h4>Characters of this comic</h4>
+      <div class="inner-container">
         <figure class="character" *ngFor="let character of comic.characters">
           <img src="{{ character.thumbnail }}" alt="Image of {{ character.name }}">
+          <h5>{{ character.name }}</h5>
         </figure>
       </div>
     </div>

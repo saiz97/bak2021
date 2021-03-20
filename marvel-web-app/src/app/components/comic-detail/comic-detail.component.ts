@@ -75,8 +75,10 @@ export class ComicDetailComponent implements OnInit, OnDestroy {
   favorComic() {
     if (!this.isFavorite) {
       this.comicService.addFavorite(this.comic);
+      this.isFavorite = true;
     } else {
       this.comicService.removeFavorite(this.comic);
+      this.isFavorite = false;
     }
 
     this.comicService.getFavoritesSubject().subscribe(favorites => {

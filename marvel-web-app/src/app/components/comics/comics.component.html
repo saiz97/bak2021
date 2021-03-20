@@ -1,14 +1,25 @@
-<div>
-  <select name="year" [(ngModel)]="selectedYear" (change)="changeYear($event.target.value)">
-    <option value="{{year}}" *ngFor="let year of yearOptions"
-      [attr.selected]="selectedYear == year">{{year}}</option>
-  </select>
+<div class="container">
+  <div class="intro">
+    <h2>Marvel Comic Universe</h2>
+    <p>Explore the vastness of the Marvel Comics universe and learn more about the specimens by selecting them.</p>
+    <p><span>1.</span>Select a year.</p>
+    <p><span>2.</span>Explore all resulting comics of the selected year.</p>
+    <p><span>3.</span>Get in touch with your favorite Comics.</p>
+  </div>
 
-  <div class="btn-group page-select">
-    <button *ngFor="let page of comicPageMap | keyvalue"
-      [ngClass]="{'selected-page': selectedPage == page.key}"
-      class="page-btn" type="button" [value]="page.key"
-      (click)="changePage(page.key)">{{page.key}}</button>
+  <div class="filter-container">
+    <select name="year" [(ngModel)]="selectedYear" (change)="changeYear($event.target.value)">
+      <option value="{{year}}" *ngFor="let year of yearOptions"
+        [attr.selected]="selectedYear == year">{{year}}</option>
+    </select>
+
+    <div class="btn-group page-select">
+      <span>Pages:</span>
+      <button *ngFor="let page of comicPageMap | keyvalue"
+        [ngClass]="{'selected-page': selectedPage == page.key}"
+        class="page-btn" type="button" [value]="page.key"
+        (click)="changePage(page.key)">{{page.key}}</button>
+    </div>
   </div>
 </div>
 

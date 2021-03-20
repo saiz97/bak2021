@@ -1,0 +1,69 @@
+@use 'index' as *;
+
+.container {
+  @include flex-center-center;
+  padding: 3rem;
+
+  .auth-card {
+    @include card-style;
+  }
+}
+
+.form-container {
+  h2 {
+    text-transform: uppercase;
+  }
+
+  .error-msg, .invalid-feedback div {
+    color: $marvel-red;
+    padding: 0.5rem 0 0.5rem 0.5rem;
+  }
+
+  .form-row {
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-top: 0.5rem;
+
+      label {
+        font-size: 0.8rem;
+      }
+
+      input {
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        -ms-border-radius: 0px;
+        -o-border-radius: 0px;
+
+        border-width: 0.1rem;
+      }
+    }
+  }
+
+  .btn-group {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+
+    button {
+      background: none;
+      border: none;
+
+      cursor: pointer;
+      text-transform: uppercase;
+
+      padding: 0.5rem 1rem;
+
+      &:first-child {
+        background-color: $marvel-red;
+        color: $marvel-font-white;
+      }
+
+      &:not(:first-child) {
+        border: 0.1rem solid $marvel-grey;
+      }
+    }
+  }
+
+}

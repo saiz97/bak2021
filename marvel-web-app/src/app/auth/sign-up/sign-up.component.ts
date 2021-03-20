@@ -8,7 +8,7 @@ import { MustMatch } from '../helpers/must-match.validator';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  styleUrls: ['../auth.component.scss']
 })
 export class SignUpComponent implements OnInit {
   isLoading: boolean = false;

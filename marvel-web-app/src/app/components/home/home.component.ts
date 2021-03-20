@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalConstants } from 'src/app/shared/global.variables';
 
 @Component({
   selector: 'app-home',
@@ -6,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  constructor() { }
+  about: string;
+
+  constructor(private globals: GlobalConstants) { }
 
   ngOnInit(): void {
+    this.about = this.globals.MARVEL_ABOUT_URL;
   }
 }

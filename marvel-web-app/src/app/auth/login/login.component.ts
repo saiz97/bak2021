@@ -4,12 +4,10 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService, AuthResponseData } from '../auth.service';
 
-import { MustMatch } from '../helpers/must-match.validator';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['../auth.component.scss']
 })
 export class LoginComponent implements OnInit {
   isLoading: boolean = false;

@@ -47,8 +47,8 @@ export class ComicsComponent implements OnInit, OnDestroy {
     });
 
     this.yearSubscription = this.statusService.getSelectedYear().subscribe((year) => {
-      console.log("HEY", year);
       this.selectedYear = year;
+      this.selectedPage = 1;
       if (this.comicPageMap == null || this.comicPageMap.size === 0) {
         this.dataService.getComics(year, 1, 0); // first page, offset 0 -> new year = new comics
       }

@@ -1,0 +1,98 @@
+@use 'index' as *;
+
+.banner {
+  width: 100%;
+  height: 20vh;
+  background-image: url('../../../assets/images/Erik-Mclean-unsplash.jpg');
+
+  @include flex-center-center;
+
+  border-top: 0.2rem solid $marvel-red;
+  border-bottom: 0.2rem solid $marvel-red;
+
+  padding: 2rem;
+
+  .banner-text {
+    text-align: center;
+    color: $marvel-font-white;
+    text-transform: uppercase;
+  }
+}
+
+main {
+  position: relative;
+  max-width: 100vw;
+  overflow: hidden;
+
+  section.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+
+    margin: 3rem 0;
+  }
+
+  .article {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 3rem;
+
+    width: 70vw;
+    max-width: 70rem;
+
+    @include card-style;
+
+    .title {
+      margin: 0 0 .5rem;
+      line-height: .9;
+      text-transform: uppercase;
+    }
+
+    .main-content p {
+      max-width: 60ch;
+      margin-top: .5rem;
+
+      a {
+        color: $marvel-black;
+      }
+    }
+
+    .image {
+      min-width: 200px;
+      width: 50%;
+      max-width: 400px;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  .bg-image {
+    position: absolute;
+    z-index: -99;
+    @include w100h100;
+
+    filter: blur(10px);
+    -webkit-filter: blur(10px);
+
+    @include transform(scale(1.1));
+
+    background-image: url('../../../assets/images/Erik-Mclean-unsplash.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &::after {
+      content:'\A';
+      @include w100h100;
+      position: absolute;
+      top:0;
+      left:0;
+      background:rgba($white, 0.6);
+      opacity: .8;
+    }
+  }
+}
