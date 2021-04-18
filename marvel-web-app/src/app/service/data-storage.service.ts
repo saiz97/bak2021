@@ -75,28 +75,13 @@ export class DataStorageService {
         });
 
     let params = new HttpParams()
-        .set("apikey", environment.MARVEL_API_PUBLIC_KEY)
-        .set("ts", this.timestamp)
-        .set("hash", this.getMd5Hash());
+        .set("apikey", environment.MARVEL_API_PUBLIC_KEY);
 
     for (const [key, value] of additionalParams) {
       params = params.set(key, value);
     }
 
     return { headers: headers, params: params };
-  }
-
-  // md5(timestamp + private_key + public_key)
-  getMd5Hash(): string {
-    const md5 = new Md5();
-    const hash = md5
-          .appendStr(this.timestamp)
-          .appendStr(environment.MARVEL_API_PRIVATE_KEY)
-          .appendStr(environment.MARVEL_API_PUBLIC_KEY)
-          .end().toString();
-
-    // console.log("MD5 Hash: ", hash);
-    return hash;
   }
 
   processResponseData(responseComics: any, totalComics: number, page: number) {
