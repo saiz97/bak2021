@@ -5,7 +5,7 @@
 
 <ng-template #notLoading>
   <div class="form-container">
-    <h2>Sign up with an new account</h2>
+    <h2>Sign up with a new account</h2>
 
     <div class="error-msg" *ngIf="error">
       {{ error }}
@@ -19,7 +19,7 @@
                 <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                     <div *ngIf="f.email.errors.required">Email is required</div>
-                    <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                    <div *ngIf="f.email.errors.email">Enter a valid Email-adress.</div>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                 <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
                 <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                     <div *ngIf="f.password.errors.required">Password is required</div>
-                    <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                    <div *ngIf="f.password.errors.minlength">Password must contain at least 6 characters</div>
                 </div>
             </div>
             <div class="form-group col">
