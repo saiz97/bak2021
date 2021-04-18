@@ -56,7 +56,7 @@
           type="button"
           [href]="comic.marvelDetailLink" target="_blank">{{ "View on Marvel.com" | uppercase }}</a>
     </div>
-    <div class="characters card-style" *ngIf="comic.characters">
+    <div class="characters card-style" *ngIf="comic.characters && comic.characters.length > 0">
       <h4>Characters of this comic</h4>
       <div class="inner-container">
         <figure class="character" *ngFor="let character of comic.characters">
