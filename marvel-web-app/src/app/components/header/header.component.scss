@@ -7,6 +7,7 @@ nav, header {
 
 header {
   @include flex-center-center;
+  padding-top: 0.5rem;
 
   .marvel-side {
     padding: 0.35rem 0 0 0.2rem;
@@ -35,9 +36,17 @@ nav {
       gap: 1rem;
     }
 
-    .login {
+    .auth {
       display: flex;
       justify-content: flex-end;
+
+      .btn-group {
+        display: flex;
+        gap: 0.5rem;
+        span {
+          color: $marvel-red
+        }
+      }
     }
   }
 

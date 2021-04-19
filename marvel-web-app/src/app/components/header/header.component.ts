@@ -26,12 +26,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  onAuth() {
-    if (!this.isAuthenticated) {
-      this.router.navigate(['auth']);
-    } else {
-      this.authService.logout();
-    }
+  onLogout() {
+    this.authService.logout();
   }
 
   ngOnDestroy(): void {

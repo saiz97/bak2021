@@ -13,11 +13,18 @@
         <a class="nav-link" routerLink="comics" routerLinkActive="active">Comics</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="favorites" routerLinkActive="active">Favorites</a>
+        <a class="nav-link" routerLink="favorites" routerLinkActive="active" *ngIf="isAuthenticated">Favorites</a>
       </li>
     </ul>
-    <div class="login">
-      <a class="nav-item nav-link" (click)="onAuth()" routerLink="auth" routerLinkActive="active">{{ isAuthenticated ? 'Logout' : 'Login'}}</a>
+
+    <div class="auth">
+      <div *ngIf="!isAuthenticated;else logout" class="btn-group">
+        <a class="nav-item nav-link" routerLink="login" routerLinkActive="active" >Login</a><span>|</span>
+        <a class="nav-item nav-link" routerLink="signup" routerLinkActive="active" >Sign Up</a>
+      </div>
+      <ng-template #logout>
+        <a class="nav-item nav-link" (click)="onLogout()">Logout</a>
+      </ng-template>
     </div>
   </div>
 </nav>

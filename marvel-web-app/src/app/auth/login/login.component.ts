@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.authService.form.next('login');
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
@@ -56,11 +55,9 @@ export class LoginComponent implements OnInit {
 
       this.loginForm.reset();
     }
-
   }
 
   onSwitchMode() {
-    this.authService.form.next('signup');
+    this.router.navigate(['signup']);
   }
-
 }

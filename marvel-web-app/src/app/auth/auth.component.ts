@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -9,19 +9,28 @@ import { AuthService } from './auth.service';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
-
-  activeFormSubscription: Subscription;
+  userSubscribtion: Subscription;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.authService.user.subscribe(user => this.router.navigate(['favorites'])).unsubscribe();
-    this.activeFormSubscription = this.authService.form.subscribe(formState => {
-      console.log("=== ", formState)
-      if (formState === "login" || formState === "") this.isLoginMode = true;
-      else this.isLoginMode = false;
+    if(this.router.url.includes("login")) {
+      this.isLoginMode = true;
+    } else if(this.router.url.includes("signup")) {
+      this.isLoginMode = false;
+    } else {
+      this.router.navigate(['home']);
+    }
+
+    this.userSubscribtion = this.authService.user.subscribe(user => {
+      console.log("user: ", user)
+      // this.router.navigate(['favorites'])
     });
+  }
+
+  ngOnDestroy() {
+    this.userSubscribtion.unsubscribe();
   }
 }

@@ -20,7 +20,6 @@ export class SignUpComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.authService.form.next('signup');
     this.signupForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -62,7 +61,7 @@ export class SignUpComponent implements OnInit {
   }
 
   onSwitchMode() {
-    this.authService.form.next('login');
+    this.router.navigate(['login']);
   }
 
 }

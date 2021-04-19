@@ -16,7 +16,8 @@ const routes: Routes = [
   ]},
   { path: 'home', component: HomeComponent },
   { path: 'favorites', component: FavoritesComponent, canActivate: [AuthGuard] },
-  { path: 'auth', component: AuthComponent },
+  { path: 'login', component: AuthComponent },
+  { path: 'signup', component: AuthComponent },
   { path: '**', redirectTo: '/home' }
 ];
 

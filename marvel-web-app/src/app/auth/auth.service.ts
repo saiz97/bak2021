@@ -22,7 +22,6 @@ export interface AuthResponseData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  public form = new BehaviorSubject<string>('');
   public user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
 
