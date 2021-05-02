@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
 
   onSubmit() {
-    this.ngZone.runOutsideAngular(() => {
+    this.ngZone.run(() => {
        this.submitted = true;
 
         if (this.loginForm.invalid) {

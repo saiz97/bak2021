@@ -36,7 +36,7 @@ export class SignUpComponent implements OnInit {
   get f() { return this.signupForm.controls; }
 
   onSubmit() {
-    this.ngZone.runOutsideAngular(() => {
+    this.ngZone.run(() => {
       this.submitted = true;
 
       if (this.signupForm.invalid) {
