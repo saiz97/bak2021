@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -15,14 +15,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private userSubscription: Subscription;
 
   constructor(private globals: GlobalConstants, private authService: AuthService,
-    private router: Router) { }
+    private router: Router, private ngZone: NgZone) { }
 
   ngOnInit(): void {
     this.marvel = this.globals.MARVEL_URL;
 
     this.userSubscription = this.authService.user.subscribe(user => {
-      this.isAuthenticated = !!user;
-      console.log("Authenticated: ", this.isAuthenticated, !!user);
+      this.ngZone.run(() => {
+        this.isAuthenticated = !!user;
+        console.log("Authenticated: ", this.isAuthenticated, !!user);
+      });
     });
   }
 
