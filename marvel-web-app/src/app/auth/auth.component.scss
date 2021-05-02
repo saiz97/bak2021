@@ -46,6 +46,12 @@
     display: flex;
     gap: 1rem;
 
+    .btn-primary[type="submit"] {
+      &:disabled {
+        background-color: $marvel-disabled;
+      }
+    }
+
     button {
       background: none;
       border: none;
