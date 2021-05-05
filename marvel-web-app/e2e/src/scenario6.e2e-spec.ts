@@ -41,27 +41,25 @@ describe('Scenario 6 - Protractor', () => {
     expect(element(by.css('.invalid-feedback')).isPresent()).toBe(false);
   });
 
-  // kwm@e2e.at
-  // kwme2e
-
   it('check if user can log in', () => {
     const loginComponent = element(by.css('app-login'));
     const inputPassword = loginComponent.element(by.css('input[formcontrolname="password"]'));
     const loginBtn = loginComponent.element(by.css('.btn-primary[type="submit"]'));
 
-    inputPassword.sendKeys("kwme2e");
+    inputPassword.sendKeys(browser.params.user.password);
     expect(loginBtn.getAttribute('disabled')).toBe(null);
 
     loginBtn.click();
+    // browser.sleep(5000);
 
-    // expect(element(by.css('app-loader')).isDisplayed()).toBe(true);
-    // expect(element(by.css('app-favorites')).isDisplayed()).toBe(true);
+    expect(element(by.css('app-loader')).isDisplayed()).toBe(true);
+
+    expect(element(by.css('app-favorites')).isDisplayed()).toBe(true);
+
 
     browser.takeScreenshot().then((png) => {
       page.writeScreenShot(png, 'after_login.png');
     });
-
-    browser.sleep(5000);
   });
 
   it('check if user-sessions is stored', () => {
@@ -69,7 +67,7 @@ describe('Scenario 6 - Protractor', () => {
     expect(localStorageUserBefore).not.toBe(null);
 
     page.navigateTo();
-    browser.waitForAngularEnabled(false);
+    // browser.waitForAngularEnabled(false);
     let localStorageUserAfter = browser.executeScript("return window.localStorage.getItem('userData');");
     expect(localStorageUserAfter).not.toBe(null);
   });
@@ -82,15 +80,7 @@ describe('Scenario 6 - Protractor', () => {
     browser.takeScreenshot().then((png) => {
       page.writeScreenShot(png, 'after_refresh.png');
     });
-
-    browser.waitForAngularEnabled(true);
   });
-
-  /*
-    let home = element(by.css(".nav-link[routerLink='home']"));
-    browser.wait(ExpectedConditions.visibilityOf(home), 5000);
-    expect(home.isDisplayed()).toBe(true);
-  */
 
 
   afterEach(async () => {
