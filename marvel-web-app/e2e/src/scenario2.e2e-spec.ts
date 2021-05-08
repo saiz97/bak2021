@@ -10,13 +10,13 @@ describe('Scenario 2 - Protractor', () => {
   })
 
   it('check if marvel logo links to marvel.com', () => {
-    const header = element(by.css('app-header'));
-    expect(header.isDisplayed()).toBe(true);
+    const headerLink = element(by.css('app-header header a.marvel'));
+    expect(headerLink.getAttribute('href')).toBe('https://www.marvel.com/');
   })
 
   it('check if footer copyright links to marvel.com', () => {
-    const nav = element(by.css('app-header .navbar'));
-    expect(nav.isPresent() && nav.isDisplayed()).toBe(true);
+    const footerLink = element(by.css('app-footer .copyright a'));
+    expect(footerLink.getAttribute('href')).toBe('https://www.marvel.com/');
   });
 
    afterEach(async () => {
