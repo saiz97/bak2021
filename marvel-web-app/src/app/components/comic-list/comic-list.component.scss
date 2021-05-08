@@ -26,6 +26,7 @@
     }
 
     figcaption {
+      display: none;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -58,6 +59,7 @@
       @include transform(translateY(-3px) scale(1.05) rotateX(15deg));
 
       figcaption {
+        display: initial;
         @include transform(none);
       }
 
