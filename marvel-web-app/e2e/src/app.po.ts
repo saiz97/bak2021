@@ -18,7 +18,7 @@ export class AppPage {
   isLoggedIn() {
     let localStorageUserAfter = browser.executeScript("return window.localStorage.getItem('userData');");
     // expect(localStorageUserAfter).not.toBe(null);
-    return (localStorageUserAfter == null);
+    return !(localStorageUserAfter == null);
   }
 
   doLogin() {

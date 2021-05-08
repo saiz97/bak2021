@@ -19,14 +19,14 @@ exports.config = {
   allScriptsTimeout: 11000,
 
   specs: [
-    //'./src/**/*.e2e-spec.ts'
+    './src/**/*.e2e-spec.ts'
     //'./src/**/scenario1.e2e-spec.ts',
     //'./src/**/scenario2.e2e-spec.ts',
     //'./src/**/scenario3.e2e-spec.ts',
     //'./src/**/scenario4.e2e-spec.ts',
     //'./src/**/scenario5.e2e-spec.ts',
     //'./src/**/scenario6.e2e-spec.ts',
-    './src/**/scenario7.e2e-spec.ts',
+    //'./src/**/scenario7.e2e-spec.ts',
   ],
 
   capabilities: {

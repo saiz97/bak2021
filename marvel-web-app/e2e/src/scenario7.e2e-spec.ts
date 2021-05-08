@@ -23,7 +23,7 @@ describe('Scenario 7 - Protractor', () => {
     }
 
     const favsPage = element(by.css("app-favorites .container"));
-    browser.wait(protractor.ExpectedConditions.presenceOf(favsPage), 30000, 'Favorites taking too long to appear in the DOM');
+    browser.wait(protractor.ExpectedConditions.presenceOf(favsPage), 30000, 'Favorites-Component taking too long to appear in the DOM');
 
 
     const favs = element(by.css(".nav-link[routerLink='favorites']"));
