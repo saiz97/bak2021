@@ -1,0 +1,17 @@
+{
+  "name": "cypress-testsuite",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "cypress": "^7.2.0",
+    "typescript": "^4.2.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "cypress:open": "npx cypress open",
+    "cy:run:chrome": "cypress run --browser chrome",
+    "cy:run:firefox": "cypress run --browser firefox"
+  },
+  "author": "",
+  "license": "ISC"
+}
