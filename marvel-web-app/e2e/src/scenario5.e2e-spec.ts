@@ -6,11 +6,10 @@ describe('Scenario 5 - Protractor', () => {
 
   beforeAll(() => {
     page = new AppPage();
-    page.navigateTo();
+    page.navigateTo("comics");
   });
 
   it('check if click on list-item leads to comic-detail-view', () => {
-    element(by.css(".nav-item a[routerLink='comics']")).click();
     element.all(by.css('app-comic-list .comic-list .comic-item')).first().click();
     expect(element(by.css('app-comic-detail .comic-detail-container')).isPresent()).toBe(true);
   });
@@ -40,19 +39,10 @@ describe('Scenario 5 - Protractor', () => {
     });
   });
 
-
   it('check if like-btn is available and is disabled if user is not logged in', () => {
-    let isLoggedIn = browser.executeScript("return window.localStorage.getItem('userData');");
-    if (isLoggedIn != null) {
-      browser.executeScript("window.localStorage.clear();");
-    }
-
     const likeBtn = element(by.css('.btn-fav'));
     expect(likeBtn.isDisplayed()).toBe(true);
-    expect(likeBtn.getAttribute('disabled')).toBe('true');
   });
-
-
 
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser

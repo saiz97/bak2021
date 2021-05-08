@@ -3,8 +3,8 @@ import { browser, element, by } from 'protractor';
 var fs = require('fs');
 
 export class AppPage {
-  navigateTo(): Promise<unknown> {
-    return browser.get(browser.params.appUrl) as Promise<unknown>;
+  navigateTo(route?: string): Promise<unknown> {
+    return browser.get(route != "" ? `${browser.params.appUrl}/${route}` : browser.params.appUrl) as Promise<unknown>;
   }
 
   writeScreenShot(data, filename) {

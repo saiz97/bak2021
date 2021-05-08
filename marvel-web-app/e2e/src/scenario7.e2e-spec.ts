@@ -4,13 +4,6 @@ import { protractor } from "protractor/built/ptor";
 
 describe('Scenario 7 - Protractor', () => {
   let page: AppPage;
-  let EC = protractor.ExpectedConditions;
-
-  const urlChanged = function() {
-    return browser.getCurrentUrl().then(function(url) {
-      return url.includes('favorites');
-    });
-  };
 
   beforeAll(() => {
     page = new AppPage();
