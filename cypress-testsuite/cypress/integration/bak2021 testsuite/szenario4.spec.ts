@@ -23,8 +23,7 @@ describe('Scenario 4 - Protractor', () => {
     
     item.find('figcaption').should('not.be.visible')
     item.trigger('mouseover', {force: true}) // this will perform a mouseover-javascript-action and will not trigger css pseudo elements
-    // item.find('figcaption').should('be.visible') // cypress is not able to trigger css hover states currently
-
+    item.find('figcaption').should('be.visible') // cypress is not able to trigger css hover states currently
   })
 
   it('check if new comics are loaded after selecting another year', () => {

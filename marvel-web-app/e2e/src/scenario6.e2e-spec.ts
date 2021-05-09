@@ -57,9 +57,9 @@ describe('Scenario 6 - Protractor', () => {
     expect(element(by.css('app-favorites')).isDisplayed()).toBe(true);
 
 
-    browser.takeScreenshot().then((png) => {
-      page.writeScreenShot(png, 'after_login.png');
-    });
+    // browser.takeScreenshot().then((png) => {
+    //   page.writeScreenShot(png, 'after_login.png');
+    // });
   });
 
   it('check if user-sessions is stored', () => {
@@ -77,9 +77,9 @@ describe('Scenario 6 - Protractor', () => {
     let favoriteNavItem = element(by.css(".nav-link[routerLink='favorites']"));
     expect(favoriteNavItem.isDisplayed()).toBe(true);
 
-    browser.takeScreenshot().then((png) => {
-      page.writeScreenShot(png, 'after_refresh.png');
-    });
+    // browser.takeScreenshot().then((png) => {
+    //   page.writeScreenShot(png, 'after_refresh.png');
+    // });
   });
 
 

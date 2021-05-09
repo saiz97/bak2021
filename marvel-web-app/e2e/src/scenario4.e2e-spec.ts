@@ -42,9 +42,9 @@ describe('Scenario 4 - Protractor', () => {
     browser.actions().mouseMove(firstComic).perform();
     expect(firstComic.element(by.css('figcaption')).isDisplayed()).toBe(true);
 
-    browser.takeScreenshot().then((png) => {
-      page.writeScreenShot(png, 'hover_comic_item.png');
-    });
+    // browser.takeScreenshot().then((png) => {
+    //   page.writeScreenShot(png, 'hover_comic_item.png');
+    // });
   });
 
   it('check if new comics are loaded after selecting another year', () => {
@@ -78,9 +78,9 @@ describe('Scenario 4 - Protractor', () => {
 
     expect(firstComicIdBefore).not.toEqual(firstComicIdAfter);
 
-    browser.takeScreenshot().then((png) => {
-      page.writeScreenShot(png, 'second_page_check.png');
-    });
+    // browser.takeScreenshot().then((png) => {
+    //   page.writeScreenShot(png, 'second_page_check.png');
+    // });
   });
 
 

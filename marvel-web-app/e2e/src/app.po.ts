@@ -15,12 +15,6 @@ export class AppPage {
     stream.end();
   }
 
-  isLoggedIn() {
-    let localStorageUserAfter = browser.executeScript("return window.localStorage.getItem('userData');");
-    // expect(localStorageUserAfter).not.toBe(null);
-    return !(localStorageUserAfter == null);
-  }
-
   doLogin() {
     element(by.css(".nav-link[routerLink='login']")).click();
     const loginComponent = element(by.css('app-login'));

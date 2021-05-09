@@ -11,20 +11,20 @@ describe('Scenario 7 - Protractor', () => {
   });
 
   it('check if user is logged in and located in app-favorites', () => {
-    if (!page.isLoggedIn()) {
-      page.doLogin();
-    }
+    element(by.css(".nav-link[routerLink='login']")).isDisplayed().then((isVisible) => {
+      if(isVisible) {
+        page.doLogin();
+      }
+      const favs = element(by.css(".nav-link[routerLink='favorites']"));
+      expect(favs.getAttribute('routerlinkactive')).toBe('active');
+    }).catch(function(err){
+      const favs = element(by.css(".nav-link[routerLink='favorites']"));
+      expect(favs.getAttribute('routerlinkactive')).toBe('active');
+    })
 
-    const favsPage = element(by.css("app-favorites .container"));
-    browser.wait(protractor.ExpectedConditions.presenceOf(favsPage), 30000, 'Favorites-Component taking too long to appear in the DOM');
-
-
-    const favs = element(by.css(".nav-link[routerLink='favorites']"));
-    expect(favs.getAttribute('routerlinkactive')).toBe('active');
-
-    browser.takeScreenshot().then((png) => {
-      page.writeScreenShot(png, 'after_login.png');
-    });
+    // browser.takeScreenshot().then((png) => {
+    //   page.writeScreenShot(png, 'after_login.png');
+    // });
   });
 
   it('check if user can add a comic to favorites', () => {
@@ -37,9 +37,9 @@ describe('Scenario 7 - Protractor', () => {
     let like = element(by.css('.btn-fav'));
     expect(like.getAttribute('disabled')).toBe(null);
     like.click().then(() => {
-       browser.takeScreenshot().then((png) => {
-        page.writeScreenShot(png, 'after_like.png');
-      });
+      //  browser.takeScreenshot().then((png) => {
+      //   page.writeScreenShot(png, 'after_like.png');
+      // });
     });
   });
 
@@ -59,9 +59,9 @@ describe('Scenario 7 - Protractor', () => {
     expect(dislike.getAttribute('ng-reflect-ng-class')).toBe('favored');
     dislike.click();
 
-    browser.takeScreenshot().then((png) => {
-      page.writeScreenShot(png, 'after_dislike.png');
-    });
+    // browser.takeScreenshot().then((png) => {
+    //   page.writeScreenShot(png, 'after_dislike.png');
+    // });
   });
 
   it('check if favorite got removed from favorites-list', () => {
