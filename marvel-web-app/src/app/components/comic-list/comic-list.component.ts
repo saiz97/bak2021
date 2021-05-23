@@ -36,6 +36,10 @@ export class ComicListComponent implements OnInit, OnDestroy {
     }
   }
 
+  toString(id) {
+    return "comic_" + id;
+  }
+
   selectComic(comic: Comic) {
     this.statusService.getSelectedComic().next(comic);
     this.router.navigate(['comics', 'comic', comic.id]);

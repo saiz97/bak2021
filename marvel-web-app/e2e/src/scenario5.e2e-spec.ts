@@ -32,11 +32,11 @@ describe('Scenario 5 - Protractor', () => {
     const detailContainer = element(by.css('app-comic-detail .comic-detail-container'));
     expect(detailContainer.element(by.css(".characters")).isPresent()).toBe(false);
 
-    element(by.css(".nav-item a[routerLink='comics']")).click();
-    element.all(by.css('app-comic-list .comic-list .comic-item')).then((comics) => {
-      (comics[2]).click();
+    const btnNav = element(by.css(".nav-item a[routerLink='comics']"));
+    btnNav.click().then(() => {
+      element(by.css('app-comic-list .comic-list #comic_90046')).click();
       expect(detailContainer.element(by.css(".characters")).isPresent()).toBe(true);
-    });
+    })
   });
 
   it('check if like-btn is available and is disabled if user is not logged in', () => {
