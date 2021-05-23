@@ -23,7 +23,7 @@ describe('Scenario 5 - Protractor', () => {
   it('check if the characters are displayed and hidden, if not existing', () => {
     cy.get('.characters').should('not.exist')
     cy.get('.nav-item a[routerLink=comics]').click()
-    cy.get('app-comic-list .comic-list .comic-item').eq(2).click()
+    cy.get('app-comic-list .comic-list #comic_90046').click()
     cy.get('.characters', { timeout: 5000 }).should('exist')
   })
 
